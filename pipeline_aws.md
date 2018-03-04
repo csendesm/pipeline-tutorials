@@ -187,3 +187,59 @@ If everything is fine then we should see this result:
 ```
  HTTP/1.1 200 OK
 ```
+
+#### Produce and Consume messages
+
+At this point your Kafka cluster is only accessible inside the Kubernetes cluster, so you have to create a `kafka-test` pod with the following yaml:
+
+>By using Pipeline [spotguides](https://banzaicloud.com/blog/spotguides/) this process is automated
+
+```
+apiVersion: v1
+kind: Pod
+metadata:
+  name: kafka-test
+spec:
+  containers:
+  - name: kafka-test
+    image: banzaicloud/kafka:2.12-1.2.0-etcd-0.0.1
+    # Just spin & wait forever
+    command: [ "/bin/bash", "-c", "--" ]
+    args: [ "while true; do sleep 3000; done;" ]
+```
+This creates a simple pod which will be available for trying out Kafka (`kubectl create -f kafka-test.yaml`). The next [Pipeline](https://github.com/banzaicloud/pipeline) release will contain the Kafka `spotguide` as well, thus Kafka will be accessible from outside as well.
+Now `exec` into this pod by using: `kubectl exec -it kafka-test bash`. Once you are inside the container you should create a topic first:
+
+```
+./bin/kafka-topics.sh --zookeeper etcd://etcd-cluster-client:2379 --create --topic kafka-test --partitions 1 --replication-factor 3
+Created topic "kafka-test".
+```
+
+When you are done let's produce some messages:
+
+```
+root@kafka-test:/opt/kafka# ./bin/kafka-console-producer.sh --broker-list bootstrap:9092 --topic kafka-test
+>welcome
+>kafka
+>on
+>etcd
+>good
+>you
+>are
+>here
+```
+
+Let's consume these messages:
+
+```
+./bin/kafka-console-consumer.sh --bootstrap-server bootstrap:9092 --topic kafka-test --from-beginning
+welcome
+kafka
+on
+etcd
+good
+you
+are
+here
+```
+As you see all the messages arrived from the producer side.
