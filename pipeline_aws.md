@@ -180,7 +180,9 @@ And the result:
 The following call help us to check our deployments on the given cluster:
 
 ```
- curl --head --url 'http://x.x.x.x/pipeline/api/v1/clusters/2/deployments'   --header 'Authorization: Basic YWRtaW46UGFzczEyMzQ='   --header 'Content-Type: application/json'
+ curl --head --url 'http://x.x.x.x/pipeline/api/v1/clusters/2/deployments'  \
+  --header 'Authorization: Basic YWRtaW46UGFzczEyMzQ=' \
+  --header 'Content-Type: application/json'
 
 ```
 If everything is fine then we should see this result:
