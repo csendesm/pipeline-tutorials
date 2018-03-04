@@ -1,6 +1,6 @@
-### How to deploy 'Kafka on etcd' on AWS with Banzai Cloud's Pipline 
+### How to deploy Kafka on Kubernetes using etcd on AWS with Banzai Cloud's Pipeline
 
-In this tutorial we will guide you through how to deploy a 'Kafta on etcd' application from the ground on AWS.
+In this tutorial we will guide you through how to deploy a 'Kafta on Kubernetes - using etcd' application from the ground on AWS.
 
 At first you have to deploy our Pipeline Control Plane which takes care all the hard work.
 
@@ -96,7 +96,7 @@ Hosting `Pipeline Control Plane` and creating Kubernetes clusters on **`AWS`**
 
      <a href="https://raw.githubusercontent.com/banzaicloud/pipeline/master/docs/images/howto/OAuthCallback.png"><img src="https://raw.githubusercontent.com/banzaicloud/pipeline/master/docs/images/howto/OAuthCallback.png" height="70"></a>
 
-### Deploying Kafka on etcd using Pipeline
+### Deploying Kafka on Kubernetes using Pipeline
 
 Now our Pipeline Control Plane is ready to help us to deploy applications in a cloud native way.
 
@@ -131,7 +131,6 @@ curl --request POST \
         }
     }
 }'
-
 ```
 
 As you can see we are going to create our cluster in the `"eu-west-1"` location, the master and the worker nodes will also be deployed to an `"m4.xlarge"` instance. We are trying to run our worker nodes on a `spot instance` and our offer is `USD 0.2` for them.
@@ -153,15 +152,13 @@ curl --head \
   --url 'http://x.x.x.x/pipeline/api/v1/clusters/2' \
   --header 'Authorization: Basic YWRtaW46UGFzczEyMzQ=' \
   --header 'Content-Type: application/json'
-
 ```
 
  The result should look like this:
 ```
  HTTP/1.1 200 OK
-
  ```
-To deploy our Kafka on etcd solution to our newly created cluster use the following call:
+To deploy our Kafka solution to our newly created Kubernetes cluster use the following call:
 
 
 ```
@@ -170,7 +167,6 @@ curl --request POST \
    --header 'Authorization: Basic YWRtaW46UGFzczEyMzQ=' \
    --header 'Content-Type: application/json' \
    --data '{"name": "banzaicloud-stable/kafka"}'
-
 ```
 
 And the result:
@@ -185,7 +181,6 @@ The following call help us to check our deployments on the given cluster:
  curl --head --url 'http://x.x.x.x/pipeline/api/v1/clusters/2/deployments'  \
   --header 'Authorization: Basic YWRtaW46UGFzczEyMzQ=' \
   --header 'Content-Type: application/json'
-
 ```
 If everything is fine then we should see this result:
 
