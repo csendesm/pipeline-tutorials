@@ -143,6 +143,6 @@ Hosting `Pipeline Control Plane` and creating Kubernetes clusters on **`AWS`**
      ```
 
 
-     ![Spark history Server UI](/img/blog/zeppelin/shs.png)
+     ![Spark history Server UI](https://www.banzaicloud.com/img/blog/zeppelin/shs.png)
 
      > __Warning__! Be aware that clusters created with the flow on the cloud provider costs you money. It's advised to destroy your environment when the development is finished (or at the end of the day). If you are running on AWS you might consider using spot instances and our watchguard to safely run spot clusters in production with [Hollowtrees](https://banzaicloud.com/blog/hollowtrees/)
