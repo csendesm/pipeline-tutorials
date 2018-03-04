@@ -128,7 +128,9 @@ curl --request POST \
             }
         }
     }
-}' ```
+}'
+
+```
 
 As you can see we are going to create our cluster in the `"eu-west-1"` location, the master and the worker nodes will also be deployed to an `"m4.xlarge"` instance. We are trying to run our worker nodes on a `spot instance` and our offer is `USD 0.2` for them.
 
@@ -163,7 +165,9 @@ curl --request POST \
    --url 'http://x.x.x.x/pipeline/api/v1/clusters/2/deployments' \
    --header 'Authorization: Basic YWRtaW46UGFzczEyMzQ=' \
    --header 'Content-Type: application/json' \
-   --data '{"name": "banzaicloud-stable/kafka"}' ```
+   --data '{"name": "banzaicloud-stable/kafka"}'
+
+```
 
 And the result:
 
