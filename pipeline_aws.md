@@ -1,3 +1,5 @@
+### How to deploy 'Kafka on etcd' on AWS with Banzai Cloud's Pipline 
+
 In this tutorial we will guide you through how to deploy a 'Kafta on etcd' application from the ground on AWS.
 
 At first you have to deploy our Pipeline Control Plane which takes care all the hard work.
