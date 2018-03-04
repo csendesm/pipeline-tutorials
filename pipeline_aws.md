@@ -150,7 +150,9 @@ You can check the Cluster status by the following API call:
 curl --head \
   --url 'http://x.x.x.x/pipeline/api/v1/clusters/2' \
   --header 'Authorization: Basic YWRtaW46UGFzczEyMzQ=' \
-  --header 'Content-Type: application/json' ```
+  --header 'Content-Type: application/json'
+
+```
 
  The result should look like this:
 ```
