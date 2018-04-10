@@ -23,8 +23,10 @@ Hosting `Pipeline Control Plane` and creating Kubernetes clusters on **`AWS`**
    * Select `Specify an Amazon S3 template URL` and add the URL to our template:
 
     `https://s3-eu-west-1.amazonaws.com/cf-templates-grr4ysncvcdl-eu-west-1/2018026em9-new.templatee93ate9mob7`
+    
+    
 
-     <a href="https://raw.githubusercontent.com/banzaicloud/pipeline/master/docs/images/howto/ControlPlaneFromTemplate.png" target="_blank"><img src="https://raw.githubusercontent.com/banzaicloud/pipeline/master/docs/images/howto/ControlPlaneFromTemplate.png" height="230"></a>
+    ![ddd](https://raw.githubusercontent.com/banzaicloud/pipeline/master/docs/images/howto/ControlPlaneFromTemplate.png) 
 
    * Fill in the following fields on the form:
 
