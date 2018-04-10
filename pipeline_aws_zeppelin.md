@@ -24,8 +24,6 @@ Hosting `Pipeline Control Plane` and creating Kubernetes clusters on **`AWS`**
 
     `https://s3-eu-west-1.amazonaws.com/cf-templates-grr4ysncvcdl-eu-west-1/2018026em9-new.templatee93ate9mob7`
     
-    
-
     ![ddd](https://raw.githubusercontent.com/banzaicloud/pipeline/master/docs/images/howto/ControlPlaneFromTemplate.png) 
 
    * Fill in the following fields on the form:
