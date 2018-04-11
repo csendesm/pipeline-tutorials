@@ -9,98 +9,102 @@ At first you have to deploy our Pipeline Control Plane which takes care all the 
 
 ### Prerequisites of hosting the control plane on AWS
 
-Hosting `Pipeline Control Plane` and creating Kubernetes clusters on **`AWS`**
+# Hosting Pipeline Control Plane on AWS
 
-   1. [AWS](https://portal.aws.amazon.com/billing/signup?type=enterprise#/start) account
-   1. AWS [EC2 key pair](http://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-key-pairs.html)
+Follow the steps below for hosting `Pipeline Control Plane` on `AWS`.
+On `AWS` we use a [Cloudformation](https://aws.amazon.com/cloudformation/) template in order to provision a Pipeline control plane.
 
-### Launch Pipeline Control Plane on `AWS`
+The control plane image (AMI) is currently published to one region, `eu-west-1` aka Ireland. When launching the control plane please pass the following ImageId `ami-ece5b095`.
 
-   The easiest way for running a Pipeline Control Plane is to use a [Cloudformation](https://aws.amazon.com/cloudformation/) template.
+## Pre-requisites
 
-   * Navigate to: https://eu-west-1.console.aws.amazon.com/cloudformation/home?region=eu-west-1#/stacks/new
+1. [AWS](https://portal.aws.amazon.com/billing/signup?type=enterprise#/start) account
+1. AWS [EC2 key pair](http://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-key-pairs.html)
 
-   * Select `Specify an Amazon S3 template URL` and add the URL to our template:
+## Command line
 
-    `https://s3-eu-west-1.amazonaws.com/cf-templates-grr4ysncvcdl-eu-west-1/2018026em9-new.templatee93ate9mob7`
-    
-    ![ddd](https://raw.githubusercontent.com/banzaicloud/pipeline/master/docs/images/howto/ControlPlaneFromTemplate.png) 
+For creating the control plane launcher through command line take a look at `.env.example` as a start to learn what environment variables are required by the `Makefile`. _Note_ the makefile uses `aws` cli which needs to be installed first if not available on the machine.
 
-   * Fill in the following fields on the form:
+* deploy - `make create-aws`
+* delete - `make terminate-aws`
 
-     * **Stack name**
-       * specify a name for the Control Plane deployment
+## Amazon Web Console
 
-         <a href="https://raw.githubusercontent.com/banzaicloud/pipeline/master/docs/images/howto/StackName.png"><img src="https://raw.githubusercontent.com/banzaicloud/pipeline/master/docs/images/howto/StackName.png" height="130"></a>
+* Initiate the creation of a new stack: [![Launch stack](https://s3.amazonaws.com/cloudformation-examples/cloudformation-launch-stack.png)](https://eu-west-1.console.aws.amazon.com/cloudformation/home?region=eu-west-1#/stacks/new)
 
-     * **AWS Credentials**
-        * Amazon access key id - specify your [access key id](http://docs.aws.amazon.com/general/latest/gr/aws-sec-cred-types.html#access-keys-and-secret-access-keys)
-        * Amazon secret access key - specify your [secret access key](http://docs.aws.amazon.com/general/latest/gr/aws-sec-cred-types.html#access-keys-and-secret-access-keys)
+* Select `Specify an Amazon S3 template URL` and add the URL to our template `https://s3-eu-west-1.amazonaws.com/cf-templates-grr4ysncvcdl-eu-west-1/2018079qfE-new.templateejo9oubl16`
 
-        <a href="https://raw.githubusercontent.com/banzaicloud/pipeline/master/docs/images/howto/AwsCred.png"><img src="https://raw.githubusercontent.com/banzaicloud/pipeline/master/docs/images/howto/AwsCred.png" height="150"></a>
+<a href="images/ControlPlaneFromTemplate.png" target="_blank"><img src="images/ControlPlaneFromTemplate.png" height="230"></a>
 
-     * **Azure Credentials and Information** - _needed only for creating Kubernetes clusters on `Azure`_
-        * AzureClientId - see how to get Azure Client Id above
-        * AzureClientSecret - see how to get Azure Client Secret above
-        * AzureSubscriptionId - your Azure Subscription Id
-        * AzureTenantId - see how to get Azure Client Tenant Id above
+* Fill in the following fields on the form:
 
-        <a href="https://raw.githubusercontent.com/banzaicloud/pipeline/master/docs/images/howto/AzureCred.png"><img src="https://raw.githubusercontent.com/banzaicloud/pipeline/master/docs/images/howto/AzureCred.png" height="200"></a>
+  * **Stack name**
+    * specify a name for the Control Plane deployment
 
-     * **Control Plane Instance Config**
-        * InstanceName - name of the EC2 instance that will host the Control Plane
-        * ImageId - pick the image id from the  [README](https://github.com/banzaicloud/pipeline-cp-launcher/blob/0.2.0/README.md)
-        * KeyName - specify your AWS [EC2 key pair](http://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-key-pairs.html)
+      <a href="images/StackName.png"><img src="images/StackName.png" height="130"></a>
 
-        <a href="https://raw.githubusercontent.com/banzaicloud/pipeline/master/docs/images/howto/ControlPlaneInstanceConfig.png"><img src="https://raw.githubusercontent.com/banzaicloud/pipeline/master/docs/images/howto/ControlPlaneInstanceConfig.png" height="180"></a>
+  * **AWS Credentials**
+     * Amazon access key id - specify your [access key id](http://docs.aws.amazon.com/general/latest/gr/aws-sec-cred-types.html#access-keys-and-secret-access-keys)
+     * Amazon secret access key - specify your [secret access key](http://docs.aws.amazon.com/general/latest/gr/aws-sec-cred-types.html#access-keys-and-secret-access-keys)
 
-     * **Banzai Pipeline Credentials**
-        * Pipeline API Password - specify the password for accessing the Pipeline REST [API](https://github.com/banzaicloud/pipeline/blob/0.2.0/docs/create.md) exposed by the Pipeline PaaS. **_Take note of the user name and password as those will be required when setting the [secrets](#repository-secrets) for the GitHub repositories in the CI/CD workflow._**
+     <a href="images/AwsCred.png"><img src="images/AwsCred.png" height="150"></a>
 
-         <a href="https://raw.githubusercontent.com/banzaicloud/pipeline/master/docs/images/howto/PipelineCred.png"><img src="https://raw.githubusercontent.com/banzaicloud/pipeline/master/docs/images/howto/PipelineCred.png" height="150"></a>
+  * **Control Plane Instance Config**
+     * InstanceName - name of the EC2 instance that will host the Control Plane
+     * ImageId - `ami-ece5b095`
+     * KeyName - specify your AWS [EC2 key pair](http://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-key-pairs.html)
 
-     * **Banzai-Ci Credentials**
-        * Orgs - comma-separated list of Github organizations whose members to grant access to use Banzai Cloud Pipeline's CI/CD workflow
-        * Github Client - GitHub OAuth `Client Id`
-        * Github Secret - Github OAuth `Client Secret`
+     <a href="images/ControlPlaneInstanceConfig.png"><img src="images/ControlPlaneInstanceConfig.png" height="180"></a>
 
-         <a href="https://raw.githubusercontent.com/banzaicloud/pipeline/master/docs/images/howto/CloudFormulationDetails3.png"><img src="https://raw.githubusercontent.com/banzaicloud/pipeline/master/docs/images/howto/CloudFormulationDetails3.png" height="150"></a>
+  * **Pipeline Credentials**
+     * Github Client - GitHub OAuth `Client Id`
+     * Github Secret - Github OAuth `Client Secret`
 
-     * **Grafana Dashboard**
-        * Grafana Dashboard Password - specify password for accessing Grafana dashboard with defaults specific to the application
+      <a href="images/CloudFormationPipelineCred.png"><img src="images/CloudFormationPipelineCred.png" height="110"></a>
 
-        <a href="https://raw.githubusercontent.com/banzaicloud/pipeline/master/docs/images/howto/GrafanaCred.png"><img src="https://raw.githubusercontent.com/banzaicloud/pipeline/master/docs/images/howto/GrafanaCred.png" height="100"></a>
+  * **Banzai-Ci**
+     * Orgs - comma-separated list of Github organizations whose members to grant access to use Banzai Cloud Pipeline's CI/CD workflow
 
-     * **Prometheus Dashboard**
-        * Prometheus Password - specify password for accessing Prometheus that collects cluster metrics
+      <a href="images/CloudFormationCiOrgs.png"><img src="images/CloudFormationCiOrgs.png" height="70"></a>
 
-         <a href="https://raw.githubusercontent.com/banzaicloud/pipeline/master/docs/images/howto/PrometheusCred.png"><img src="https://raw.githubusercontent.com/banzaicloud/pipeline/master/docs/images/howto/PrometheusCred.png" height="100"></a>
+  * **Grafana Dashboard**
+     * Grafana Dashboard Password - specify password for accessing Grafana dashboard with defaults specific to the application
 
-     * **Advanced Pipeline Options**
-        * PipelineImageTag - specify `0.2.0` for using current stable Pipeline release.
+     <a href="images/CloudFormationGrafanaCred.png"><img src="images/CloudFormationGrafanaCred.png" height="90"></a>
 
-        <a href="https://raw.githubusercontent.com/banzaicloud/pipeline/master/docs/images/howto/AdvencedPipOpt.png"><img src="https://raw.githubusercontent.com/banzaicloud/pipeline/master/docs/images/howto/AdvencedPipOpt.png" height="150"></a>
+  * **Prometheus Dashboard**
+     * Prometheus Password - specify password for accessing Prometheus that collects cluster metrics
 
-     * **Slack Credentials**
-          * this section is optional. Complete this section to receive  cluster related alerts through a [Slack](https://slack.com) push notification channel.
+      <a href="images/CloudFormationPrometheusCred.png"><img src="images/CloudFormationPrometheusCred.png" height="100"></a>
 
-     * **Alert SMTP Credentials**
-        * this section is optional. Fill this section to receive cluster related alerts through email.
+  * **Advanced Pipeline Options**
+     * PipelineImageTag - specify `0.3.0` for using current stable Pipeline release.
 
-   * Finish the wizard to create a `Control Plane` instance.
-   * Take note of the PublicIP of the created Stack. We refer to this as the PublicIP of `Control Plane`.
+     <a href="images/CloudFormationAdvancedPipOpt.png"><img src="images/CloudFormationAdvancedPipOpt.png" height="130"></a>
 
-       <a href="https://raw.githubusercontent.com/banzaicloud/pipeline/master/docs/images/howto/CloudFormulationDetails5.png"><img src="https://raw.githubusercontent.com/banzaicloud/pipeline/master/docs/images/howto/CloudFormulationDetails5.png" height="250"></a>
+  * **Slack Credentials**
+       * this section is optional. Complete this section to receive  cluster related alerts through a [Slack](https://slack.com) push notification channel.
 
-   * Go back to the earlier created GitHub OAuth application and modify it. Set the `Authorization callback URL` field to `http://{control_plane_public_ip}/authorize`
+  * **Alert SMTP Credentials**
+     * this section is optional. Fill this section to receive cluster related alerts through email.
 
-     <a href="https://raw.githubusercontent.com/banzaicloud/pipeline/master/docs/images/howto/OAuthCallback.png"><img src="https://raw.githubusercontent.com/banzaicloud/pipeline/master/docs/images/howto/OAuthCallback.png" height="70"></a>
+* Finish the wizard to create a `Control Plane` instance.
+
+## Deployment end points
+
+Check the output section of the deployed cloud formation template for the endpoints where the deployed services can be reached:
+
+* PublicIP - the IP of the host where Pipeline is running
+* Pipeline - the endpoint for the Pipelne REST API
+* Grafana - the endpoint for Grafana
+* PrometheusServer - the endpoint for [federated](https://banzaicloud.com/blog/prometheus-federation/) Prometheus server.
+
+<a href="images/CloudFormationOutput.png"><img src="images/CloudFormationOutput.png" height="250"></a>
+
 
      ###  Zeppelin CI/CD
 
      Let's start with our example [Zeppelin project](https://github.com/banzaicloud/zeppelin-pdi-example)
-
-     > Note: Please read the following [howto](https://github.com/banzaicloud/pipeline/blob/master/docs/pipeline-howto.md) for the detailed description of the prerequisites that are needed for the flow to work!
 
      Fork the repository into your GitHub account. You'll find a couple of *Banzai Cloud Pipeline CI/CD flow descriptor templates* for the released cloud providers (Amazon, Azure). Make a copy of the template corresponding to your chosen cloud provider and name it **.pipeline.yml**. This is the Banzai Cloud Pipeline **CI/CD flow descriptor** which is one of the **spotguides** associated with the project.
 
